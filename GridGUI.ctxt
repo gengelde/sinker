@@ -1,0 +1,11 @@
+#BlueJ class context
+comment0.target=GridGUI
+comment1.params=
+comment1.target=GridGUI()
+comment2.params=num\ length\ width
+comment2.target=void\ placePieces(int,\ int,\ int)
+comment3.params=row\ col\ length\ width\ vertical
+comment3.target=boolean\ overlapsPiece(int,\ int,\ int,\ int,\ boolean)
+comment4.params=args
+comment4.target=void\ main(java.lang.String[])
+numComments=5
