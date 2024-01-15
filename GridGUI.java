@@ -39,8 +39,8 @@ public class GridGUI extends JFrame
         {
             for (int j = 0; j < 10; j++) 
             {
-            gridButtons[i][j] = new JButton();
-            gridButtons[i][j].addActionListener(e -> 
+                gridButtons[i][j] = new JButton();
+                gridButtons[i][j].addActionListener(e -> 
                 {
                     JButton btn = (JButton) e.getSource();
                     int row = -1, col = -1;
@@ -60,47 +60,49 @@ public class GridGUI extends JFrame
                             break;
                         }
                     }
-                    if (pieceGrid[row][col]) 
-                    {
-                        ImageIcon explosion = new ImageIcon("explosion.jpg");
-                        btn.setIcon(explosion);
-                        piecesLeft--;
-                    } 
-                    else 
-                    {
-                        ImageIcon water = new ImageIcon("water.jpg");
-                        btn.setIcon(water);
-                    }
-                    triesLeft--;
-                    triesLeftLabel.setText("Tries left: " + triesLeft);
-                    if (piecesLeft == 0) 
-                    {
-                        int option = JOptionPane.showOptionDialog(null, "You sunk all of the ships, you win! Play again?", "Congratulations!",
-                        JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, new Object[]{"Yes", "No"}, "Yes");
-                        
-                        if (option == JOptionPane.YES_OPTION) 
+                    if (!hasWaterOrExplosionIcon(btn)) {
+                        if (pieceGrid[row][col]) 
                         {
-                            dispose();
-                            new GridGUI();
+                            ImageIcon explosion = new ImageIcon("explosion.jpg");
+                            btn.setIcon(explosion);
+                            piecesLeft--;
                         } 
                         else 
                         {
-                            System.exit(0);
+                            ImageIcon water = new ImageIcon("water.jpg");
+                            btn.setIcon(water);
                         }
-                    } 
-                    else if (triesLeft == 0) 
-                    {
-                        int option = JOptionPane.showOptionDialog(null, "Too many tries, you lose! Try again?", "Game Over",
-                        JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, new Object[]{"Yes", "No"}, "Yes");
-                
-                        if (option == JOptionPane.YES_OPTION) 
+                        triesLeft--;
+                        triesLeftLabel.setText("Tries left: " + triesLeft + "     Pieces left:" + piecesLeft);
+                        if (piecesLeft == 0) 
                         {
-                            dispose();
-                            new GridGUI();
+                            int option = JOptionPane.showOptionDialog(null, "You sunk all of the ships, you win! Play again?", "Congratulations!",
+                            JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, new Object[]{"Yes", "No"}, "Yes");
+                            
+                            if (option == JOptionPane.YES_OPTION) 
+                            {
+                                dispose();
+                                new GridGUI();
+                            } 
+                            else 
+                            {
+                                System.exit(0);
+                            }
                         } 
-                        else 
+                        else if (triesLeft == 0) 
                         {
-                            System.exit(0);
+                            int option = JOptionPane.showOptionDialog(null, "Too many tries, you lose! Try again?", "Game Over",
+                            JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, new Object[]{"Yes", "No"}, "Yes");
+                    
+                            if (option == JOptionPane.YES_OPTION) 
+                            {
+                                dispose();
+                                new GridGUI();
+                            } 
+                            else 
+                            {
+                                System.exit(0);
+                            }
                         }
                     }
                 });
@@ -128,7 +130,7 @@ public class GridGUI extends JFrame
             }
         }
 
-        triesLeftLabel = new JLabel("Tries left: " + triesLeft);
+        triesLeftLabel = new JLabel("Tries left: " + triesLeft + "     Pieces left:" + piecesLeft);
         triesLeftLabel.setHorizontalAlignment(SwingConstants.LEFT);
         triesLeftLabel.setVerticalAlignment(SwingConstants.TOP);
         add(triesLeftLabel, BorderLayout.NORTH);
@@ -174,6 +176,12 @@ public class GridGUI extends JFrame
             }
         }
         return false;
+    }
+    private boolean hasWaterOrExplosionIcon(JButton button) 
+    {
+        Icon currentIcon = button.getIcon();
+        return currentIcon != null &&
+        (currentIcon.toString().contains("water.jpg") || currentIcon.toString().contains("explosion.jpg"));
     }
     public static void main(String[] args) 
     {
